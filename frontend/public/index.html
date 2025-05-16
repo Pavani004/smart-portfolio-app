@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Portfolio Pro | Your Digital Showcase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --accent: #fd79a8;
+            --success: #00b894;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        #root {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            margin-top: -80px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 8s infinite alternate;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.6);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: white;
+            color: var(--dark);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 5rem 10%;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -10px;
+            left: 25%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            animation: fadeInUp 1s ease-out;
+            animation-fill-mode: backwards;
+        }
+        
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+        .feature-card:nth-child(4) { animation-delay: 0.8s; }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Skills Showcase */
+        .skills {
+            padding: 5rem 10%;
+            background-color: var(--light);
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .skill-item {
+            background-color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .skill-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        /* Resume Builder Section */
+        .resume-builder {
+            padding: 5rem 10%;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resume-builder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80') no-repeat center center/cover;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .resume-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .resume-preview {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transform: rotate(-5deg);
+            transition: all 0.5s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .resume-preview:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        .resume-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* Email Drafting Section */
+        .email-drafting {
+            padding: 5rem 10%;
+            background-color: var(--light);
+        }
+        
+        .email-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .email-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .email-body {
+            padding: 2rem;
+        }
+        
+        .email-toolbar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .email-toolbar button {
+            padding: 0.5rem 1rem;
+            background-color: var(--light);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .email-toolbar button:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .email-editor {
+            min-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* LinkedIn Generator */
+        .linkedin-generator {
+            padding: 5rem 10%;
+            background-color: white;
+        }
+        
+        .generator-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .generator-input {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+        
+        .generator-output {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 10%;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            bottom: -8px;
+            left: 0;
+            background-color: var(--primary);
+        }
+        
+        .footer-column p {
+            margin-bottom: 1rem;
+            color: #bbb;
+            line-height: 1.6;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .resume-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .generator-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!-- Header/Navigation -->
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-rocket"></i>
+                    <span>SmartPortfolio Pro</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#resume">Resume Builder</a>
+                    <a href="#email">Email Drafting</a>
+                    <a href="#linkedin">LinkedIn Generator</a>
+                </div>
+            </nav>
+        </header>
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Elevate Your Professional Presence</h1>
+                <p>The ultimate all-in-one platform to showcase your skills, build stunning resumes, craft perfect emails, and generate engaging LinkedIn content that gets noticed by recruiters and hiring managers.</p>
+                <div class="cta-buttons">
+                    <a href="#resume" class="btn btn-primary">Build Your Resume</a>
+                    <a href="#linkedin" class="btn btn-secondary">Generate Content</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <h2 class="section-title">Why Choose SmartPortfolio Pro</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Skill Showcase</h3>
+                    <p>Create a visually stunning portfolio that highlights your unique skills and expertise in an engaging way that stands out from the crowd.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Smart Resume Builder</h3>
+                    <p>Generate professional, ATS-friendly resumes tailored to specific job applications with our intelligent builder and templates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email Assistant</h3>
+                    <p>Craft perfect cover letters and professional emails with our AI-powered writing assistant that suggests improvements in real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </div>
+                    <h3>LinkedIn Generator</h3>
+                    <p>Create engaging LinkedIn posts and profile content that increases your visibility and attracts the right opportunities.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Skills Showcase -->
+        <section class="skills" id="skills">
+            <h2 class="section-title">Showcase Your Skills</h2>
+            <div class="skills-container">
+                <div class="skill-item">
+                    <i class="fab fa-js skill-icon"></i>
+                    <span>JavaScript</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-react skill-icon"></i>
+                    <span>React</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-node skill-icon"></i>
+                    <span>Node.js</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-database skill-icon"></i>
+                    <span>Database Design</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-python skill-icon"></i>
+                    <span>Python</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-mobile-alt skill-icon"></i>
+                    <span>Mobile Development</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-cloud skill-icon"></i>
+                    <span>Cloud Architecture</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-chart-line skill-icon"></i>
+                    <span>Data Analysis</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Resume Builder -->
+        <section class="resume-builder" id="resume">
+            <h2 class="section-title">Smart Resume Builder</h2>
+            <div class="resume-content">
+                <div class="resume-preview">
+                    <h3>John Doe</h3>
+                    <p>Senior Software Engineer</p>
+                    <p>San Francisco, CA | john.doe@example.com | (123) 456-7890</p>
+                    <hr>
+                    <h4>Experience</h4>
+                    <p><strong>Tech Company Inc.</strong> - Senior Developer (2020-Present)</p>
+                    <p>Lead a team of 5 developers to build innovative web applications...</p>
+                </div>
+                <div class="resume-form">
+                    <h3>Build Your Resume</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Professional Title</label>
+                            <input type="text" id="title" placeholder="e.g. Senior Software Engineer">
+                        </div>
+                        <div class="form-group">
+                            <label for="experience">Work Experience</label>
+                            <textarea id="experience" placeholder="Describe your work experience"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generate Resume</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Email Drafting -->
+        <section class="email-drafting" id="email">
+            <h2 class="section-title">Professional Email Assistant</h2>
+            <div class="email-container">
+                <div class="email-header">
+                    <h3>Compose Your Perfect Email</h3>
+                </div>
+                <div class="email-body">
+                    <div class="email-toolbar">
+                        <button>Formal</button>
+                        <button>Follow-up</button>
+                        <button>Networking</button>
+                        <button>Job Application</button>
+                        <button>Thank You</button>
+                    </div>
+                    <div class="email-editor" contenteditable="true">
+                        <p>Dear [Recipient's Name],</p>
+                        <p><br></p>
+                        <p>I hope this email finds you well...</p>
+                    </div>
+                    <button class="btn btn-primary">Enhance Email</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- LinkedIn Generator -->
+        <section class="linkedin-generator" id="linkedin">
+            <h2 class="section-title">LinkedIn Content Generator</h2>
+            <div class="generator-container">
+                <div class="generator-input">
+                    <h3>Input Your Content</h3>
+                    <textarea style="width: 100%; min-height: 200px;" placeholder="What would you like to post about?"></textarea>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-primary">Generate Post</button>
+                        <button class="btn btn-secondary">Generate Profile Summary</button>
+                    </div>
+                </div>
+                <div class="generator-output">
+                    <h3>Generated Content</h3>
+                    <div style="background-color: #f5f5f5; padding: 1rem; border-radius: 5px; min-height: 200px;">
+                        <p>Your professional LinkedIn content will appear here...</p>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top: 1rem;">Copy to Clipboard</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SmartPortfolio Pro</h3>
+                    <p>The ultimate platform for professionals to showcase their skills and enhance their career opportunities.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <p><a href="#features" style="color: #bbb; text-decoration: none;">Features</a></p>
+                    <p><a href="#skills" style="color: #bbb; text-decoration: none;">Skills Showcase</a></p>
+                    <p><a href="#resume" style="color: #bbb; text-decoration: none;">Resume Builder</a></p>
+                    <p><a href="#email" style="color: #bbb; text-decoration: none;">Email Drafting</a></p>
+                    <p><a href="#linkedin" style="color: #bbb; text-decoration: none;">LinkedIn Generator</a></p>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-envelope"></i> support@smartportfoliopro.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Hyderabad, India</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 SmartPortfolio Pro. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // Simple animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.feature-card, .skill-item, .resume-preview, .email-container, .generator-container').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
